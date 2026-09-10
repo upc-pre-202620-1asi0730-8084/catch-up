@@ -59,6 +59,26 @@ Vite uses different `.env` files based on the current mode:
 - `.env.production`: variables used for production builds (`npm run build`).
 - `.env.local`: can be used to override variables locally (should not be committed).
 
+### Obtaining API and License Keys
+
+To run the application, you will need to obtain the following keys and add them to your `.env.local` file:
+
+1.  **NewsAPI API Key**:
+    - Go to [NewsAPI.org Registration](https://newsapi.org/register).
+    - Create an account and log in.
+    - Copy your API Key from your dashboard.
+    - Set it as `VITE_NEWS_API_KEY` in your `.env.local`.
+
+2.  **Logo.dev Publishable API Key**:
+    - Visit [Logo.dev](https://logo.dev).
+    - Sign up for an account to get your publishable key.
+    - Set it as `VITE_LOGO_PUBLISHABLE_API_KEY` in your `.env.local`.
+
+3.  **Prime UI License Key**:
+    - Visit [PrimeUI](https://primeui.dev).
+    - Register for a Community or Commercial license.
+    - Once obtained, set it as `VITE_PRIME_UI_LICENSE_KEY` in your `.env.local`.
+
 Create a local env file (for example `.env.local`) to provide your keys:
 
 ```bash
