@@ -119,10 +119,10 @@ package "shared.domain.model" {
     + isEmpty(): boolean
     + toString(): string
     + equals(other): boolean
+    {static} + isValidUrl(url): boolean
   }
   class StringValidator << ValueObject >> {
     {static} + isNotEmptyString(value): boolean
-    {static} + isValidUrl(url): boolean
   }
 }
 
