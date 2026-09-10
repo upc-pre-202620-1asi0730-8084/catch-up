@@ -7,9 +7,9 @@ This document contains the user stories for the CatchUp application.
 ## User Stories for CatchUp
 
 ### US001: Browse News Sources
-**As a** User, **I want to** browse available news sources through a side navigation menu, **so that** I can choose a source to access its articles.
-- **Given** the User accesses the CatchUp application, **when** the news sources are retrieved from the provider, **then** the User can access the available news sources from a list, including their names and logos, being the first source chosen by default.
-- **Given** the User is viewing the news source list, **when** the User chooses a different source, **then** the chosen source is indicated as active.
+**As a** User, **I want to** browse available news sources, **so that** I can choose a source to access its articles.
+- **Given** the User accesses the CatchUp application, **when** the news sources are retrieved from the provider, **then** the User can access the available news sources, including their names and logos, being the first source chosen by default.
+- **Given** the User is viewing the available news sources, **when** the User chooses a different source, **then** the chosen source is indicated as active.
 
 ### US002: View Articles
 **As a** User, **I want to** access articles from a chosen source, **so that** I can read news content with clear authorship and publishing time.
@@ -20,7 +20,7 @@ This document contains the user stories for the CatchUp application.
 ### US003: Engage with Ethical and Inclusive Features
 **As a** User, **I want to** engage with features that promote inclusivity and transparency, **so that** I can interact with the application in my preferred language and understand its data sources.
 - **Given** the User is using the CatchUp application, **when** the User chooses a language (English or Spanish), **then** the User experiences the application in the chosen language.
-- **Given** the User accesses the CatchUp application, **when** the User seeks attribution information in the footer, **then** the User is presented with attributions for NewsAPI.org and Logo.dev.
+- **Given** the User accesses the CatchUp application, **when** the User seeks attribution information, **then** the User is presented with attributions for NewsAPI.org and Logo.dev.
 
 ### US004: Interact with Articles and Sources
 **As a** User, **I want to** interact with articles and get more information about their sources, **so that** I can distribute news, read full content, or understand the source's background.
