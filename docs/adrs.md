@@ -49,7 +49,7 @@ Implement specialized **Value Objects** in the shared domain layer (e.g., `Url`,
 Accepted
 
 ### Context
-We need a modern, reactive, and component-based UI framework with a robust set of UI components to accelerate development.
+We need a modern, reactive, and component-based UI framework with a robust set of UI components to speed up development.
 
 ### Decision
 Use **Vue 3** with the **Composition API** (specifically `<script setup>`) for better logic reuse and IDE support. Use **PrimeVue** as the primary UI component library for consistency and accessibility.
@@ -103,7 +103,7 @@ Accepted
 Modern browsers support `URL.canParse()`, but we need to maintain compatibility and robustness when dealing with invalid or missing URLs from external sources.
 
 ### Decision
-Use a centralized `StringValidator.isValidUrl` utility that attempts to use `URL.canParse()` when available, falling back to a `new URL()` try-catch block for older environments. The `Url` Value Object uses this utility to safely handle input.
+Use a centralized `Url.isValidUrl` utility that attempts to use `URL.canParse()` when available, falling back to a `new URL()` try-catch block for older environments. The `Url` Value Object uses this utility to safely handle input.
 
 ### Consequences
 - **Pros**: Leverages modern APIs while remaining safe. Prevents application crashes due to malformed external data.
