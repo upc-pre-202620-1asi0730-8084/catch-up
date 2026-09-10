@@ -6,7 +6,7 @@ import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import {Avatar, Button, Card, Drawer, Image, Menu, Menubar, Popover, SelectButton, Toolbar, Tooltip} from "primevue";
+import {Avatar, Button, Card, Drawer, Menu, Menubar, Popover, SelectButton, Toolbar, Tooltip} from "primevue";
 
 const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 /**
