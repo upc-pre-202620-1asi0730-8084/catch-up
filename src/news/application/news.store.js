@@ -1,28 +1,33 @@
-import {computed, reactive} from "vue";
-import {Source} from "../domain/model/source.entity.js";
-import {NewsApi} from "../infrastructure/news-api.js";
-import {SourceAssembler} from "../infrastructure/source.assembler.js";
-import {ArticleAssembler} from "../infrastructure/article.assembler.js";
+import {reactive} from "vue";
+import {Source} from "@/news/domain/model/source.entity.js";
+import {NewsApi} from "@/news/infrastructure/news-api.js";
+import {SourceAssembler} from "@/news/infrastructure/source.assembler.js";
+import {ArticleAssembler} from "@/news/infrastructure/article.assembler.js";
 
 /**
+ * Application state and service orchestrator for news-related operations.
+ *
  * @typedef {Object} NewsStore
- * @property {import('../domain/model/source.entity.js').Source[]} sources
- * @property {import('../domain/model/article.entity.js').Article[]} articles
- * @property {Array<unknown>} errors
- * @property {import('../domain/model/source.entity.js').Source | null} currentSource
- * @property {(source: import('../domain/model/source.entity.js').Source) => void} setCurrentSource
- * @property {() => void} loadSources
- * @property {() => void} loadArticlesForCurrentSource
+ * @property {import('@/news/domain/model/source.entity.js').Source[]} sources - List of available news sources.
+ * @property {import('@/news/domain/model/article.entity.js').Article[]} articles - List of articles for the current source.
+ * @property {Array<string>} errors - List of error messages encountered during operations.
+ * @property {import('@/news/domain/model/source.entity.js').Source | null} currentSource - The currently selected news source.
+ * @property {(source: import('@/news/domain/model/source.entity.js').Source) => void} setCurrentSource - Sets the current source and triggers article loading.
+ * @property {() => void} loadSources - Orchestrates fetching and assembling news sources.
+ * @property {() => void} loadArticlesForCurrentSource - Orchestrates fetching and assembling articles for the active source.
  */
 
 const newsApi = new NewsApi();
+const sourceAssembler = new SourceAssembler();
 
 /**
- * Application-layer state container that orchestrates source and article loading.
+ * Reactive application store that coordinates use cases for news management.
  *
  * @remarks
- * In DDD terms, this module coordinates use-case behavior and delegates data
- * acquisition/mapping to infrastructure services.
+ * In DDD, this serves as an Application Service, managing the interaction
+ * between UI components and infrastructure-driven data acquisition.
+ *
+ * @type {NewsStore}
  */
 export const newsStore = reactive({
         sources: [],
@@ -36,26 +41,21 @@ export const newsStore = reactive({
          * @returns {void}
          */
         setCurrentSource(source) {
-            if (source instanceof Source) {
-                this.currentSource = source;
-                this.loadArticlesForCurrentSource();
-            }
+            this.currentSource = source;
+            this.loadArticlesForCurrentSource();
         },
         /**
-         * Loads source list from the provider and selects the first source.
+         * Loads the source list from the provider and selects the first source.
          *
          * @returns {void}
          */
         loadSources() {
             this.errors = [];
             newsApi.getSources().then(response => {
-                this.sources = SourceAssembler.toEntitiesFromResponse(response);
-                if (this.sources.length > 0) {
-                    this.setCurrentSource(this.sources[0]);
-                    this.loadArticlesForCurrentSource();
-                }
-            }).catch(error => {
-                this.errors.push(error);
+                this.sources = sourceAssembler.toEntitiesFromResponse(response);
+                if (this.sources.length > 0 && !this.currentSource) this.setCurrentSource(this.sources[0]);
+            }).catch(message => {
+                this.errors.push(message);
                 this.sources = [];
             });
         },
@@ -67,9 +67,10 @@ export const newsStore = reactive({
         loadArticlesForCurrentSource() {
             if (this.currentSource === null) return;
             newsApi.getArticlesForSourceId(this.currentSource.id).then(response => {
-                this.articles = ArticleAssembler.withSource(this.currentSource).toEntitiesFromResponse(response);
-            }).catch(error => {
-                this.errors.push(error);
+                const articleAssembler = new ArticleAssembler(this.currentSource);
+                this.articles = articleAssembler.toEntitiesFromResponse(response);
+            }).catch(message => {
+                this.errors.push(message);
                 this.articles = [];
             });
         }

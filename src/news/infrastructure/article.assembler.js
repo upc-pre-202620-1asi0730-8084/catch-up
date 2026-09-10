@@ -1,57 +1,65 @@
 
-import {SourceAssembler} from "./source.assembler.js";
-import {Article} from "../domain/model/article.entity.js";
+import {SourceAssembler} from "@/news/infrastructure/source.assembler.js";
+import {Article} from "@/news/domain/model/article.entity.js";
+import "@/news/infrastructure/news-resources.js";
 
 /**
- * @typedef {Object} ArticleApiResource
- * @property {string} [title]
- * @property {string} [description]
- * @property {string} [url]
- * @property {string} [urlToImage]
- * @property {string} [publishedAt]
- * @property {{id?: string, name?: string, description?: string, url?: string, category?: string, language?: string, country?: string}} [source]
- */
-
-/**
- * Maps article resources from infrastructure responses into domain entities.
+ * Infrastructure service that maps article data from API responses into Domain Entities.
+ *
+ * @remarks
+ * Following DDD patterns, this assembler acts as a Data Mapper between the
+ * infrastructure-specific article format and the Article domain entity.
  */
 export class ArticleAssembler {
-    /** @type {import('../domain/model/source.entity.js').Source | null} */
-    static source = null;
+    #source;
+    #sourceAssembler;
 
     /**
-     * Configures preferred source reuse to avoid recreating identical source entities.
+     * Initializes the ArticleAssembler.
      *
-     * @param {import('../domain/model/source.entity.js').Source} source
-     * @returns {typeof ArticleAssembler}
+     * @param {import('@/news/domain/model/source.entity.js').Source | null} [source=null] - An optional Source entity to associate with assembled articles.
      */
-    static withSource(source) {
-        this.source = source;
-        return this;
+    constructor(source = null) {
+        this.#source = source;
+        this.#sourceAssembler = new SourceAssembler();
     }
 
     /**
-     * @param {import('axios').AxiosResponse<{status: string, articles: ArticleApiResource[]}>} response
-     * @returns {Article[]}
+     * Maps a full Axios response containing article resources into an array of Article entities.
+     *
+     * @param {import('axios').AxiosResponse<ArticlesResponse>} response - The HTTP response from the news provider.
+     * @returns {Article[]} An array of Article domain entities. Returns an empty array if the status is not 'ok'.
      */
-    static toEntitiesFromResponse(response) {
+    toEntitiesFromResponse(response) {
         if (response.data.status !== "ok") {
-            console.error(`${response.status},  ${response.code}, ${response.message}`);
+            console.error(`${response.data["status"]},  ${response.data["code"]}, ${response.data["message"]}`);
             return [];
         }
         const articlesResponse = response.data;
         return articlesResponse["articles"].map((article) => {
-            return this.toEntityFromResource(article);
-        });
+            try {
+                return this.toEntityFromResource(article);
+            } catch (error) {
+                console.error('Validation error for article:', error.message, article);
+                return null;
+            }
+        }).filter(article => article !== null);
     }
 
     /**
-     * @param {ArticleApiResource} resource
-     * @returns {Article}
+     * Maps a single article resource into an Article domain entity.
+     *
+     * @param {ArticleResource} resource - The article data as received from the external API.
+     * @returns {Article} The assembled Article domain entity.
      */
-    static toEntityFromResource(resource) {
-        let article = new Article(resource);
-        article.source = this.source && this.source.id === resource.source.id ? this.source : SourceAssembler.toEntityFromResource(resource.source);
+    toEntityFromResource(resource) {
+        let article = new Article({
+            ...resource,
+            source: resource.source || { name: 'Unknown Source' }
+        });
+        article.source = this.#source && (this.#source.id === resource.source?.id || this.#source.name === resource.source?.name) 
+            ? this.#source 
+            : this.#sourceAssembler.toEntityFromResource(resource.source || { id: 'unknown', name: 'Unknown Source' });
         return article;
     }
 }

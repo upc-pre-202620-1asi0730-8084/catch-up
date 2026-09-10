@@ -6,27 +6,27 @@ import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import {Avatar, Button, Card, Drawer, Image, Menu, Menubar, SelectButton, Toolbar, Tooltip} from "primevue";
+import {Avatar, Button, Card, Drawer, Menu, Menubar, Popover, SelectButton, Toolbar, Tooltip} from "primevue";
 
+const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 /**
  * Application composition root.
  *
  * @remarks
- * Wires cross-cutting services and UI framework components before mounting
- * the presentation shell.
+ * Specifies the main entry point of the Vue application, configuring global plugins, components, and mounting the app to the DOM.
  */
 
 createApp(App)
     .use(i18n)
-    .use(PrimeVue, { ripple: true, theme: { preset: Material }})
+    .use(PrimeVue, { ripple: true, theme: { preset: Material }, license: primeUiLicenseKey })
     .component('pv-button', Button)
     .component('pv-select-button', SelectButton)
     .component('pv-avatar', Avatar)
     .component('pv-drawer', Drawer)
     .component('pv-card', Card)
-    .component('pv-image', Image)
     .component('pv-toolbar', Toolbar)
     .component('pv-menu', Menu)
     .component('pv-menubar', Menubar)
+    .component('pv-popover', Popover)
     .directive('tooltip', Tooltip)
     .mount('#app')

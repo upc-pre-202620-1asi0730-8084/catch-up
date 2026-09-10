@@ -8,7 +8,9 @@
   },
   "article": {
     "share": "Compartir",
-    "copy-to-clipboard": "Copiar al portapapeles"
+    "copy-to-clipboard": "Copiar al portapapeles",
+    "by": "Por",
+    "published-on": "Publicado el"
   },
   "footer": {
     "powered-by": "Contenido proporcionado por",
