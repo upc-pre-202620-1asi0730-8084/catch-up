@@ -1,31 +1,43 @@
 <script setup lang="js">
-  import {Source} from "../../domain/model/source.entity.js";
+  import {Source} from "@/news/domain/model/source.entity.js";
   import SourceItem from "./source-item.vue";
-  import {toRefs} from "vue";
 
   /**
-   * Presentation component that displays selectable news sources.
+   * Presentation component for displaying a list of selectable news sources.
    *
    * @remarks
-   * It surfaces user interactions to parent components without mutating
-   * application state directly.
+   * Renders news sources within a navigation drawer and handles source selection.
    */
 
   /**
+   * Properties for the SourceList component.
+   *
    * @typedef {Object} SourceListProps
-   * @property {boolean} visible
-   * @property {Source[]} sources
+   * @property {boolean} visible - Controls the visibility of the source drawer.
+   * @property {Source[]} sources - An array of news source entities to display.
    */
 
   /**
+   * Emitted events for the SourceList component.
+   *
    * @typedef {Object} SourceListEmits
-   * @property {(event: 'source-selected', source: Source) => void} emit
+   * @property {(event: 'source-selected', source: Source) => void} source-selected - Emitted when a source is selected from the list.
+   * @property {(event: 'update:visible', visible: boolean) => void} update:visible - Emitted when the visibility of the drawer changes.
    */
 
   /** @type {SourceListProps} */
-  const props = defineProps({ visible: Boolean, sources: Array[Source] });
+  const { visible, sources } = defineProps({ visible: Boolean, sources: Array[Source] });
   /** @type {SourceListEmits['emit']} */
-  const emit  = defineEmits(['source-selected']);
+  const emit  = defineEmits(['source-selected', 'update:visible']);
+
+  /**
+   * Emits the update:visible event for the container component.
+   *
+   * @param {boolean} value
+   */
+  const emitVisibilityUpdatedEvent = (value) => {
+    emit('update:visible', value);
+  };
 
   /**
    * Bubbles the selected source to the parent container.
@@ -33,15 +45,13 @@
    * @param {Source} source
    * @returns {void}
    */
-  function emitSourceSelectedEvent(source) {
+  const emitSourceSelectedEvent = source => {
     emit('source-selected', source);
-  }
-
-  const { visible, sources } = toRefs(props);
+  };
 </script>
 
 <template>
-  <pv-drawer v-bind:visible="visible">
+  <pv-drawer :visible="visible" @update:visible="emitVisibilityUpdatedEvent">
     <source-item v-for="source in sources"
                  :key="source.id"
                  :source="source"
