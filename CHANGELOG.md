@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Presentation**: Updated `LanguageSwitcher` to use the Vue 3 Composition API `useI18n` composable.
 - **Presentation**: Refactored `Layout` and `SourceList` to use two-way binding (`v-model:visible`) for sidebar management.
 - **Documentation**: Updated `docs/class-diagram.puml` with architectural stereotypes (Entity, ValueObject, Component, etc.) and current relationships.
-- **Documentation**: Refactored `docs/user-stories.md` to focus on requirements and business value, removing implementation-specific UI details.
+- **Documentation**: Refactored `docs/user-stories.md` to focus on requirements and business value, and refined the Requirement Traceability Matrix (RTM) to map User Stories to Bounded Contexts and Implementation Elements.
 - **Documentation**: Comprehensive update of JSDoc comments across the codebase to align with DDD and OOP best practices.
 
 ### Fixed

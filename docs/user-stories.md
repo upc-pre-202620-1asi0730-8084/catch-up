@@ -2,7 +2,18 @@
 # User Stories
 
 ## Overview
-This document contains the user stories for the CatchUp application.
+This document contains the user stories and the Requirement Traceability Matrix (RTM) for the CatchUp application.
+
+## Requirement Traceability Matrix
+
+The following matrix maps the User Stories to their Bounded Contexts and Implementation Elements.
+
+| User Story                                            | Bounded Context | Implementation Elements                                                                                                                                                                                              |
+|:------------------------------------------------------|:----------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **US001**: Browse News Sources                        | News            | `Source` (Entity), `Url` (Value Object), `newsStore` (Store), `NewsApi` (Resource), `LogoDevApi` (Resource), `SourceAssembler` (Assembler), `SourceList` (Component), `SourceItem` (Component), `Layout` (Component) |
+| **US002**: View Articles                              | News            | `Article` (Entity), `Url` (Value Object), `DateTime` (Value Object), `newsStore` (Store), `NewsApi` (Resource), `ArticleAssembler` (Assembler), `ArticleList` (Component), `ArticleItem` (Component)                 |
+| **US003**: Engage with Ethical and Inclusive Features | Shared          | `newsStore` (i18n), `LanguageSwitcher` (Component), `FooterContent` (Component)                                                                                                                                      |
+| **US004**: Interact with Articles and Sources         | News            | `Article` (Entity), `Source` (Entity), `Url` (Value Object), `newsStore` (Store), `ArticleItem` (Component), `SourceSummary` (Component)                                                                             |
 
 ## User Stories for CatchUp
 
