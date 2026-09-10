@@ -6,8 +6,9 @@ import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import {Avatar, Button, Card, Drawer, Image, Menu, Menubar, SelectButton, Toolbar, Tooltip} from "primevue";
+import {Avatar, Button, Card, Drawer, Image, Menu, Menubar, Popover, SelectButton, Toolbar, Tooltip} from "primevue";
 
+const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 /**
  * Application composition root.
  *
@@ -18,7 +19,7 @@ import {Avatar, Button, Card, Drawer, Image, Menu, Menubar, SelectButton, Toolba
 
 createApp(App)
     .use(i18n)
-    .use(PrimeVue, { ripple: true, theme: { preset: Material }})
+    .use(PrimeVue, { ripple: true, theme: { preset: Material }, license: primeUiLicenseKey })
     .component('pv-button', Button)
     .component('pv-select-button', SelectButton)
     .component('pv-avatar', Avatar)
@@ -28,5 +29,6 @@ createApp(App)
     .component('pv-toolbar', Toolbar)
     .component('pv-menu', Menu)
     .component('pv-menubar', Menubar)
+    .component('pv-popover', Popover)
     .directive('tooltip', Tooltip)
     .mount('#app')
