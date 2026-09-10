@@ -42,16 +42,16 @@ const sourceSummary = ref();
  *
  * @param {Event} event - The click event.
  */
-function toggleSourceSummary(event) {
+const toggleSourceSummary = event => {
   sourceSummary.value.toggle(event);
-}
+};
 
 /**
  * Uses Web Share API when available; otherwise copies article URL.
  *
  * @returns {Promise<void>}
  */
-async function shareArticle() {
+const shareArticle = async () => {
   const shareData = {title: article['title'], url: article['url'].toString()};
   if (navigator.share) {
     try {
@@ -69,7 +69,7 @@ async function shareArticle() {
       console.error('Failed to copy the article URL:', err);
     }
   }
-}
+};
 
 </script>
 
