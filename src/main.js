@@ -13,8 +13,7 @@ const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
  * Application composition root.
  *
  * @remarks
- * Wires cross-cutting services and UI framework components before mounting
- * the presentation shell.
+ * Specifies the main entry point of the Vue application, configuring global plugins, components, and mounting the app to the DOM.
  */
 
 createApp(App)
