@@ -1,4 +1,3 @@
-import {StringValidator} from "@/shared/domain/model/string-validator.js";
 
 /**
  * Value object representing a URL within the domain.
@@ -12,12 +11,31 @@ export class Url {
     #value;
 
     /**
+     * Validates if a string is a well-formed URL.
+     *
+     * @param {string} url - The URL string to validate.
+     * @returns {boolean} True if the URL is valid, false otherwise.
+     */
+    static isValidUrl(url) {
+        if (typeof url !== 'string' && !(url instanceof String)) return false;
+        if (URL.canParse) {
+            return URL.canParse(url);
+        }
+        try {
+            new URL(url);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    /**
      * Creates a new Url instance.
      *
      * @param {string} value - The URL string.
      */
     constructor(value) {
-        this.#value = StringValidator.isValidUrl(value) ? value : '';
+        this.#value = Url.isValidUrl(value) ? value : '';
         Object.freeze(this);
     }
 

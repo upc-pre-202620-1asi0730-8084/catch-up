@@ -24,23 +24,4 @@ export class StringValidator {
     static isNotEmptyString(value) {
         return this.isString(value) && value.trim().length > 0;
     }
-
-    /**
-     * Validates if a string is a well-formed URL.
-     *
-     * @param {string} url - The URL string to validate.
-     * @returns {boolean} True if the URL is valid, false otherwise.
-     */
-    static isValidUrl(url) {
-        if (!this.isString(url)) return false;
-        if (URL.canParse) {
-            return URL.canParse(url);
-        }
-        try {
-            new URL(url);
-            return true;
-        } catch (_) {
-            return false;
-        }
-    }
 }
