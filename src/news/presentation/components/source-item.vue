@@ -32,9 +32,9 @@
    *
    * @returns {void}
    */
-  function emitSourceSelectedEvent() {
+  const emitSourceSelectedEvent = () => {
     emit('source-selected', source);
-  }
+  };
 </script>
 
 <template>
